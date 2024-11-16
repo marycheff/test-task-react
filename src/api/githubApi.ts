@@ -1,4 +1,3 @@
-// src/api/githubApi.ts
 import axios from "axios"
 import { IFork } from "../interfaces/IFork"
 
