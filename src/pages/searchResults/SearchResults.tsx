@@ -111,7 +111,11 @@ const SearchResults = () => {
                 page: newPage,
             })
         )
-        navigate(`/search?page=${newPage}&repository=${owner || ""}/${repositoryName || ""}`)
+        navigate(
+            `/search?page=${newPage}&repository=${encodeURIComponent(owner || "")}/${encodeURIComponent(
+                repositoryName || ""
+            )}`
+        )
     }
 
     return (
