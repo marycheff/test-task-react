@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IFork } from "../interfaces/IFork"
+import { IForkApi } from "../interfaces/IForkApi"
 
 const GITHUB_API_URL = "https://api.github.com"
 
@@ -31,7 +31,7 @@ export const getRepositoryForks = async (owner: string, repository: string, page
         })
 
         // Преобразование в объект
-        const forks = forksResponse.data.map((fork: IFork) => ({
+        const forks = forksResponse.data.map((fork: IForkApi) => ({
             id: fork.id,
             name: fork.full_name,
             owner: fork.owner.login,

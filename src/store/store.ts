@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
+import sliceReducer from "./slices/favoritesSlice"
 import searchReducer from "./slices/forksSlice"
 import modalReducer from "./slices/modalSlice"
-
 const store = configureStore({
     reducer: {
         forks: searchReducer,
         modal: modalReducer,
+        favorites: sliceReducer,
     },
 })
 

@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { IFork } from "../../interfaces/IFork"
+
 
 interface ModalState {
     isOpen: boolean
-    recordId: number | null
+    fork: IFork | null
     mode: "add" | "remove" | null
 }
 
 const initialState: ModalState = {
     isOpen: false,
-    recordId: null,
+    fork: null,
     mode: null,
 }
 
@@ -16,14 +18,14 @@ const modalSlice = createSlice({
     name: "modal",
     initialState,
     reducers: {
-        openModal: (state, action: PayloadAction<{ recordId: number; mode: "add" | "remove" }>) => {
+        openModal: (state, action: PayloadAction<{ fork: IFork; mode: "add" | "remove" }>) => {
             state.isOpen = true
-            state.recordId = action.payload.recordId
+            state.fork = action.payload.fork
             state.mode = action.payload.mode
         },
         closeModal: state => {
             state.isOpen = false
-            state.recordId = null
+            state.fork = null
             state.mode = null
         },
     },

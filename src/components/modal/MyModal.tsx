@@ -1,10 +1,15 @@
 import { FC } from "react"
 import { MdClose } from "react-icons/md"
 import Modal from "react-modal"
+import { IFork } from "../../interfaces/IFork"
 import { addToFavorites, removeFromFavorites } from "../../utils/favorites"
-import "./MyModal.css"
 
-Modal.setAppElement("#root")
+interface MyModalProps {
+    isOpen: boolean
+    fork: IFork | null
+    mode: "add" | "remove" | null
+    onClose: () => void
+}
 
 const customStyles = {
     content: {
@@ -22,20 +27,13 @@ const customStyles = {
     },
 }
 
-interface MyModalProps {
-    isOpen: boolean
-    recordId: number | null
-    mode: "add" | "remove" | null
-    onClose: () => void
-}
-
-const MyModal: FC<MyModalProps> = ({ isOpen, recordId, mode, onClose }) => {
+const MyModal: FC<MyModalProps> = ({ isOpen, fork, mode, onClose }) => {
     const handleConfirm = () => {
-        if (recordId) {
+        if (fork) {
             if (mode === "add") {
-                addToFavorites(recordId)
+                addToFavorites(fork)
             } else if (mode === "remove") {
-                removeFromFavorites(recordId)
+                removeFromFavorites(fork.id)
             }
         }
         onClose()

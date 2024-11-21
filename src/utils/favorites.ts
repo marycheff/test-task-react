@@ -1,23 +1,31 @@
+import { IFork } from "../interfaces/IFork"
+
 // Добавление в  избранное
-const addToFavorites = (id: number): void => {
-    const favorites: number[] = JSON.parse(localStorage.getItem("favorites") || "[]")
-    if (!favorites.includes(id)) {
-        favorites.push(id)
+const addToFavorites = (fork: IFork): void => {
+    const favorites: IFork[] = JSON.parse(localStorage.getItem("favorites") || "[]")
+    const exists = favorites.some(favorite => favorite.id === fork.id)
+    if (!exists) {
+        favorites.push(fork)
         localStorage.setItem("favorites", JSON.stringify(favorites))
     }
 }
 
 // Удаление из избранного
-const removeFromFavorites = (id: number): void => {
-    const favorites: number[] = JSON.parse(localStorage.getItem("favorites") || "[]")
-    const updatedFavorites: number[] = favorites.filter(favoriteId => favoriteId !== id)
+const removeFromFavorites = (forkId: number): void => {
+    const favorites: IFork[] = JSON.parse(localStorage.getItem("favorites") || "[]")
+    const updatedFavorites = favorites.filter(fork => fork.id !== forkId)
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites))
 }
 
-// Получение id форка из избранного
-const getFavoriteById = (id: number): number | undefined => {
-    const favorites: number[] = JSON.parse(localStorage.getItem("favorites") || "[]")
-    return favorites.find(favorite => favorite === id)
+// Получение форка из избранного
+const getFavorite = (fork: IFork): IFork | undefined => {
+    const favorites: IFork[] = JSON.parse(localStorage.getItem("favorites") || "[]")
+    return favorites.find(favorite => favorite.id === fork.id)
 }
 
-export { addToFavorites, getFavoriteById, removeFromFavorites }
+// Получение избранного
+export const getFavorites = (): IFork[] => {
+    return JSON.parse(localStorage.getItem("favorites") || "[]")
+}
+
+export { addToFavorites, getFavorite, removeFromFavorites }

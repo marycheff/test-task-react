@@ -10,7 +10,8 @@ import { IFork } from "../../interfaces/IFork"
 import { fetchForks, setPage } from "../../store/slices/forksSlice"
 import { closeModal, openModal } from "../../store/slices/modalSlice"
 import { AppDispatch, RootState } from "../../store/store"
-import { getFavoriteById } from "../../utils/favorites"
+
+import { getFavorite } from "../../utils/favorites"
 import { validatePageParam, validateRepositoryParam } from "../../utils/validation"
 import Error404 from "../404/Error404"
 import "./SearchResults.css"
@@ -67,15 +68,15 @@ const SearchResults = () => {
             title: "Избранное",
             key: "favorite",
             width: "15%",
-            render: record =>
-                getFavoriteById(record.id) ? (
+            render: fork =>
+                getFavorite(fork) ? (
                     <button
                         className="btn-primary bg-orange-400 hover:bg-orange-500"
-                        onClick={() => handleOpenModal(record.id, "remove")}>
+                        onClick={() => handleOpenModal(fork, "remove")}>
                         В избранном
                     </button>
                 ) : (
-                    <button className="btn-primary" onClick={() => handleOpenModal(record.id, "add")}>
+                    <button className="btn-primary" onClick={() => handleOpenModal(fork, "add")}>
                         Добавить
                     </button>
                 ),
@@ -94,9 +95,10 @@ const SearchResults = () => {
     }
 
     // Хендлеры
-    const handleOpenModal = (id: number, mode: "add" | "remove") => {
-        dispatch(openModal({ recordId: id, mode }))
+    const handleOpenModal = (fork: IFork, mode: "add" | "remove") => {
+        dispatch(openModal({ fork, mode }))
     }
+
     const handleModalClose = () => {
         dispatch(closeModal())
     }
@@ -125,7 +127,7 @@ const SearchResults = () => {
                     {error ? (
                         <h2>{error}</h2>
                     ) : (
-                        <div>
+                        <>
                             {forksCount > 0 && <h2 className="text-right mb-1 mr-1">Всего: {forksCount}</h2>}
                             {!isLoading && forksCount == 0 && <h2>У этого репозитория нет форков</h2>}
                             <Table
@@ -141,14 +143,14 @@ const SearchResults = () => {
                                     onChange: handlePageChange,
                                 }}
                             />
-                        </div>
+                        </>
                     )}
                 </div>
             </div>
-            {modalState.isOpen && (
+            {modalState.isOpen && modalState.fork && (
                 <MyModal
                     isOpen={modalState.isOpen}
-                    recordId={modalState.recordId}
+                    fork={modalState.fork}
                     mode={modalState.mode}
                     onClose={handleModalClose}
                 />

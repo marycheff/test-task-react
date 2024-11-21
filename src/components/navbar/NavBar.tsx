@@ -6,9 +6,14 @@ const NavBar = () => {
     return (
         <div className="flex justify-between mt-4 items-center mx-6">
             <SearchBar />
-            <button className="btn-primary" onClick={() => navigate("/")}>
-                Главная
-            </button>
+            <div>
+                <button className="btn-primary mr-2" onClick={() => navigate("/favorites")}>
+                    Избранное
+                </button>
+                <button className="btn-primary" onClick={() => navigate("/")}>
+                    Главная
+                </button>
+            </div>
         </div>
     )
 }
